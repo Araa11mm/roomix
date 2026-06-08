@@ -18,6 +18,7 @@ export function useZoomPan(canvasRef: React.RefObject<HTMLElement | null>) {
   const lastPos = useRef({ x: 0, y: 0 })
   const rafRef = useRef<number | null>(null)
   const pendingDelta = useRef({ dx: 0, dy: 0 })
+  const lastPinchDist = useRef<number | null>(null)
 
   useLayoutEffect(() => {
     zoomRef.current = zoom
@@ -85,11 +86,39 @@ export function useZoomPan(canvasRef: React.RefObject<HTMLElement | null>) {
         isPanningRef.current = true
         lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
         setGrabbing(true)
+      } else if (e.touches.length === 2) {
+        isPanningRef.current = false
+        const dx = e.touches[0].clientX - e.touches[1].clientX
+        const dy = e.touches[0].clientY - e.touches[1].clientY
+        lastPinchDist.current = Math.hypot(dx, dy)
       }
     }
 
     const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 1 && isPanningRef.current) {
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        const dx = e.touches[0].clientX - e.touches[1].clientX
+        const dy = e.touches[0].clientY - e.touches[1].clientY
+        const dist = Math.hypot(dx, dy)
+        if (lastPinchDist.current !== null && lastPinchDist.current > 0) {
+          const ratio = dist / lastPinchDist.current
+          const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2
+          const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
+          const rect = el.getBoundingClientRect()
+          const mx = midX - rect.left
+          const my = midY - rect.top
+          const oldZoom = zoomRef.current
+          const newZoom = clampZoom(oldZoom * ratio)
+          const scale = newZoom / oldZoom
+          const ox = offsetRef.current.x
+          const oy = offsetRef.current.y
+          setZoom(newZoom)
+          setOffset({ x: mx - (mx - ox) * scale, y: my - (my - oy) * scale })
+          zoomRef.current = newZoom
+          offsetRef.current = { x: mx - (mx - ox) * scale, y: my - (my - oy) * scale }
+        }
+        lastPinchDist.current = dist
+      } else if (e.touches.length === 1 && isPanningRef.current) {
         e.preventDefault()
         const x = e.touches[0].clientX
         const y = e.touches[0].clientY
@@ -109,6 +138,7 @@ export function useZoomPan(canvasRef: React.RefObject<HTMLElement | null>) {
 
     const onTouchEnd = () => {
       isPanningRef.current = false
+      lastPinchDist.current = null
       setGrabbing(false)
     }
 
