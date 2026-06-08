@@ -44,7 +44,7 @@ interface MagicDeps {
 }
 
 interface Deps {
-  canvasRef: React.RefObject<HTMLElement>
+  canvasRef: React.RefObject<HTMLElement | null>
   objectsRef: { current: CanvasObject[] }
   selectedIdsRef: { current: string[] }
   activeToolRef: { current: Tool }
