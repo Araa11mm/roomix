@@ -145,6 +145,65 @@ export function useCanvasInteractions({
     }
   }, [activeToolRef, saveHistory, selectedIdsRef, objectsRef, setSelectedIds, lasso, rect, magic])
 
+  const handleObjectTouchStart = useCallback((e: React.TouchEvent, obj: CanvasObject) => {
+    if (activeToolRef.current !== 'select') return
+    if (e.touches.length !== 1) return
+    e.stopPropagation()
+    saveHistory()
+    const touch = e.touches[0]
+    const ids = selectedIdsRef.current.includes(obj.id) ? selectedIdsRef.current : [obj.id]
+    setSelectedIds(ids)
+    const startPositions: Record<string, { x: number; y: number }> = {}
+    objectsRef.current.forEach(o => {
+      if (ids.includes(o.id)) startPositions[o.id] = { x: o.x, y: o.y }
+      if (o.type === 'drawing' && o.parentImageId && ids.includes(o.parentImageId))
+        startPositions[o.id] = { x: o.x, y: o.y }
+    })
+    const dragState = {
+      ids, startMX: touch.clientX, startMY: touch.clientY, startPositions,
+      lassoOrigPoints: lasso.lassoSelectionRef.current,
+      lassoOrigClipBounds: lasso.lassoClipBoundsRef.current,
+      lassoImageId: lasso.lassoSelectionImageIdRef.current,
+      rectOrigBounds: rect.rectSelectionRef.current,
+      rectImageId: rect.rectSelectionImageIdRef.current,
+      magicOrigPoints: magic.magicSelectionRef.current,
+      magicImageId: magic.magicSelectionImageIdRef.current,
+    }
+    draggingObj.current = dragState
+
+    const onTouchMove = (te: TouchEvent) => {
+      if (te.touches.length !== 1) return
+      te.preventDefault()
+      const t = te.touches[0]
+      const z = zoomRef.current / 100
+      const dx = (t.clientX - dragState.startMX) / z
+      const dy = (t.clientY - dragState.startMY) / z
+      setObjects(prev => prev.map(o =>
+        dragState.startPositions[o.id] !== undefined
+          ? { ...o, x: dragState.startPositions[o.id].x + dx, y: dragState.startPositions[o.id].y + dy }
+          : o
+      ))
+      if (dragState.lassoImageId && dragState.ids.includes(dragState.lassoImageId) && dragState.lassoOrigPoints.length > 0) {
+        lasso.setLassoSelection(dragState.lassoOrigPoints.map(p => ({ x: p.x + dx, y: p.y + dy })))
+        if (dragState.lassoOrigClipBounds)
+          lasso.setLassoClipBounds({ ...dragState.lassoOrigClipBounds, x: dragState.lassoOrigClipBounds.x + dx, y: dragState.lassoOrigClipBounds.y + dy })
+      }
+      if (dragState.magicImageId && dragState.ids.includes(dragState.magicImageId) && dragState.magicOrigPoints.length > 0)
+        magic.setMagicSelection(dragState.magicOrigPoints.map(p => ({ x: p.x + dx, y: p.y + dy })))
+      if (dragState.rectImageId && dragState.ids.includes(dragState.rectImageId) && dragState.rectOrigBounds)
+        rect.setRectSelection({ ...dragState.rectOrigBounds, x: dragState.rectOrigBounds.x + dx, y: dragState.rectOrigBounds.y + dy })
+    }
+
+    const onTouchEnd = () => {
+      draggingObj.current = null
+      window.removeEventListener('touchmove', onTouchMove)
+      window.removeEventListener('touchend', onTouchEnd)
+    }
+
+    window.addEventListener('touchmove', onTouchMove, { passive: false })
+    window.addEventListener('touchend', onTouchEnd)
+  }, [activeToolRef, saveHistory, selectedIdsRef, objectsRef, setSelectedIds, setObjects, zoomRef, lasso, rect, magic])
+
   const handleResizeStart = useCallback((corner: Corner, e: React.MouseEvent, obj: CanvasObject) => {
     saveHistory()
     resizingObj.current = {
@@ -229,5 +288,5 @@ export function useCanvasInteractions({
     onPanMouseUp()
   }, [lasso, brush, rect, onPanMouseUp, selectionRectRef, objectsRef, setSelectedIds, setSelectionRect])
 
-  return { handleCanvasMouseDown, handleObjectMouseDown, handleResizeStart, handleMouseMove, handleMouseUp }
+  return { handleCanvasMouseDown, handleObjectMouseDown, handleObjectTouchStart, handleResizeStart, handleMouseMove, handleMouseUp }
 }

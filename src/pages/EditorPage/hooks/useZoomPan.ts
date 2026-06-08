@@ -81,7 +81,7 @@ export function useZoomPan(canvasRef: React.RefObject<HTMLElement | null>) {
 
     const onTouchStart = (e: TouchEvent) => {
       const target = e.target as HTMLElement
-      if (target.closest('button, input, textarea, a, img, [role="button"]')) return
+      if (target.closest('button, input, textarea, a, img, [role="button"], [data-canvas-object]')) return
       if (e.touches.length === 1) {
         isPanningRef.current = true
         lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }

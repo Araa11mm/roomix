@@ -190,7 +190,7 @@ function EditorPage() {
   })
 
   // ── Mouse interactions ────────────────────────────────────────────────────
-  const { handleCanvasMouseDown, handleObjectMouseDown, handleResizeStart, handleMouseMove, handleMouseUp } =
+  const { handleCanvasMouseDown, handleObjectMouseDown, handleObjectTouchStart, handleResizeStart, handleMouseMove, handleMouseUp } =
     useCanvasInteractions({
       canvasRef, objectsRef, selectedIdsRef, activeToolRef, selectionRectRef,
       zoomRef, offsetRef, spaceDownRef,
@@ -285,6 +285,7 @@ function EditorPage() {
                 selected={ov.activeSelectedIds.includes(obj.id)}
                 brushTarget={obj.id === ov.brushTargetId || obj.id === ov.lassoTargetId || obj.id === ov.rectTargetId || obj.id === ov.magicTargetId}
                 onMouseDown={e => handleObjectMouseDown(e, obj)}
+                onTouchStart={e => handleObjectTouchStart(e, obj)}
                 onResizeStart={(corner, e) => handleResizeStart(corner, e, obj)}
               />
             ))}

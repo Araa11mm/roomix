@@ -8,10 +8,11 @@ interface Props {
   selected: boolean
   brushTarget?: boolean
   onMouseDown: (e: React.MouseEvent) => void
+  onTouchStart: (e: React.TouchEvent) => void
   onResizeStart: (corner: Corner, e: React.MouseEvent) => void
 }
 
-function CanvasObject({ obj, selected, brushTarget, onMouseDown, onResizeStart }: Props) {
+function CanvasObject({ obj, selected, brushTarget, onMouseDown, onTouchStart, onResizeStart }: Props) {
   const handleCornerDown = (corner: Corner, e: React.MouseEvent) => {
     e.stopPropagation()
     e.preventDefault()
@@ -20,9 +21,11 @@ function CanvasObject({ obj, selected, brushTarget, onMouseDown, onResizeStart }
 
   return (
     <div
+      data-canvas-object="true"
       className={`${styles.object} ${selected ? styles.selected : ''} ${brushTarget ? styles.brushTarget : ''}`}
       style={{ left: obj.x, top: obj.y, width: obj.width, height: obj.height }}
       onMouseDown={onMouseDown}
+      onTouchStart={onTouchStart}
     >
       {obj.type === 'image' && (
         <img src={obj.src} alt="" draggable={false} />
