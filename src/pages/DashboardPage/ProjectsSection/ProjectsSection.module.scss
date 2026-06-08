@@ -530,7 +530,19 @@
   }
 
   .grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
+  .cardName {
+    font-size: 12px;
+  }
+
+  .cardDate {
+    font-size: 11px;
+  }
+
+  .cardInfo {
+    padding: 8px 10px;
+  }
 }
