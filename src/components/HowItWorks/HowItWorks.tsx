@@ -1,22 +1,25 @@
 import styles from './HowItWorks.module.scss'
+import imagePlusIcon from '../../img/image-plus.svg'
+import lassoIcon from '../../img/lasso.svg'
+import aiIcon from '../../img/ai.svg'
 
 const STEPS = [
   {
-    icon: '/src/img/image-plus.svg',
+    icon: imagePlusIcon,
     dark: false,
     number: '01',
     title: 'Загрузите фото помещения',
     description: 'Добавьте фотографию комнаты, которую хотите изменить',
   },
   {
-    icon: '/src/img/lasso.svg',
+    icon: lassoIcon,
     dark: false,
     number: '02',
     title: 'Выделите нужную область',
     description: 'С помощью инструмента выделения укажите часть интерьера для изменения',
   },
   {
-    icon: '/src/img/ai.svg',
+    icon: aiIcon,
     dark: true,
     number: '03',
     title: 'Редактирование с помощью ИИ',

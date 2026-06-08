@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import styles from './Footer.module.scss'
+import LogoImg from '../../img/Logo.svg'
 
 const NAV_LINKS = [
   { label: 'Возможности', href: '#features' },
@@ -23,7 +24,7 @@ const Footer = () => {
       <div className={`container ${styles.inner}`}>
         <div className={styles.left}>
           <a href="/" className={styles.logo}>
-            <img src="/src/img/Logo.svg" alt="Roomix" />
+            <img src={LogoImg} alt="Roomix" />
           </a>
           <p className={styles.description}>
             Сервис для редактирования интерьеров с помощью искусственного интеллекта

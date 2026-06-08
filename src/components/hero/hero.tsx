@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import styles from './hero.module.scss'
+import redactorImg from '../../img/redactor.png'
 
 const Hero = () => {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ const Hero = () => {
 
         <div className={styles.mockup}>
           <div className={styles.mockupInner}>
-            <img src="/src/img/redactor.png" alt="Редактор интерьера" className={styles.roomImage} />
+            <img src={redactorImg} alt="Редактор интерьера" className={styles.roomImage} />
           </div>
         </div>
       </div>

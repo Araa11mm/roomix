@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './header.module.scss'
+import LogoImg from '../../img/Logo.svg'
 
 const NAV_LINKS = [
   { label: 'Как это работает', href: '#how-it-works' },
@@ -32,7 +33,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={`${styles.inner} ${isOpen ? styles.innerOpen : ''}`}>
         <a href="/" className={styles.logo}>
-          <img src="/src/img/Logo.svg" alt="Roomix" />
+          <img src={LogoImg} alt="Roomix" />
         </a>
 
         <nav className={`${styles.nav} ${isOpen ? styles.navOpen : ''}`}>

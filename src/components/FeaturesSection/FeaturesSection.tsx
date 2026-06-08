@@ -1,4 +1,5 @@
 import styles from './FeaturesSection.module.scss'
+import editorMockup from '../../img/editor-mockup.png'
 
 const FeaturesSection = () => {
   return (
@@ -13,7 +14,7 @@ const FeaturesSection = () => {
 
         <div className={styles.mockupWrap}>
           <img
-            src="/src/img/editor-mockup.png"
+            src={editorMockup}
             alt="Редактор Roomix"
             className={styles.mockup}
           />

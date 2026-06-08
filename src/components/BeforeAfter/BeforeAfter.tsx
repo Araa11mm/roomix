@@ -1,28 +1,32 @@
 import { useState, useRef } from 'react'
 import styles from './BeforeAfter.module.scss'
+import slide1 from '../../img/before.png'
+import slide2 from '../../img/slide2.png'
+import slide3 from '../../img/slide3.png'
+import slide4 from '../../img/slide4.png'
 
 const SLIDES = [
   {
-    before: '/src/img/before.png',
-    after: '/src/img/before.png',
+    before: slide1,
+    after: slide1,
     tag: 'Смена цвета стены',
     prompt: 'Измени цвет стены на мягкий берёзовый оттенок, сохрани освещение',
   },
   {
-    before: '/src/img/slide2.png',
-    after: '/src/img/slide2.png',
+    before: slide2,
+    after: slide2,
     tag: 'Смена стиля',
     prompt: 'Смени тёплый уютный интерьер на холодный современный стиль',
   },
   {
-    before: '/src/img/slide3.png',
-    after: '/src/img/slide3.png',
+    before: slide3,
+    after: slide3,
     tag: 'Замена освещения',
     prompt: 'Добавь тёплую подсветку под навесными шкафами над столешницей',
   },
   {
-    before: '/src/img/slide4.png',
-    after: '/src/img/slide4.png',
+    before: slide4,
+    after: slide4,
     tag: 'Добавление декора',
     prompt: 'Добавь живые растения и декоративные акценты в интерьер',
   },
