@@ -1,0 +1,73 @@
+.object {
+  position: absolute;
+  cursor: default;
+  user-select: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    pointer-events: none;
+  }
+
+  &.selected {
+    outline: 3px solid #0066ff;
+    outline-offset: 2px;
+  }
+
+  &.brushTarget {
+    outline: 2px dashed #ff6b35;
+    outline-offset: 3px;
+  }
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: #2a7a6e;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  animation: placeholderPulse 2s ease-in-out infinite;
+}
+
+.placeholderSpinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes placeholderPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #0066ff;
+  border-radius: 3px;
+  z-index: 1;
+
+  &.tl { top: -6px; left: -6px; cursor: nwse-resize; }
+  &.tr { top: -6px; right: -6px; cursor: nesw-resize; }
+  &.bl { bottom: -6px; left: -6px; cursor: nesw-resize; }
+  &.br { bottom: -6px; right: -6px; cursor: nwse-resize; }
+}

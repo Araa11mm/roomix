@@ -1,0 +1,46 @@
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.card {
+  border-radius: 16px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f0f0f0;
+  background-image: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.info {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.line {
+  border-radius: 6px;
+  background: #f0f0f0;
+  background-image: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s infinite linear;
+
+  &.name {
+    height: 16px;
+    width: 60%;
+    margin-bottom: 2px;
+  }
+
+  &.date {
+    height: 14px;
+    width: 40%;
+  }
+}

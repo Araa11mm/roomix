@@ -1,0 +1,95 @@
+
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  margin-top: 3rem;
+  padding-top: 100px;
+  padding-bottom: 60px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 520px;
+}
+
+.title {
+  font-size: clamp(36px, 3.6vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #111;
+  letter-spacing: -1px;
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: #555555;
+  max-width: 420px;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 14px 24px;
+  background-color: #111;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.mockup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mockupInner {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+  border: 1.5px solid #e0e0e0;
+}
+
+.roomImage {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .inner {
+    flex-direction: column;
+    padding-top: 120px;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .content {
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .description {
+    max-width: 100%;
+  }
+
+  .roomImage {
+    max-width: 100%;
+  }
+}
