@@ -33,7 +33,7 @@ function EditorPage() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [selectionRect, setSelectionRect] = useState<SelectionRect | null>(null)
 
-  const canvasRef = useRef<HTMLElement>(null)
+ const canvasRef = useRef<HTMLElement | null>(null)
   const objectsRef = useRef(objects)
   const selectedIdsRef = useRef(selectedIds)
   const activeToolRef = useRef(activeTool)
