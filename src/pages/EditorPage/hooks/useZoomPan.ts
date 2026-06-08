@@ -5,7 +5,7 @@ const MAX_ZOOM = 300
 const STEP = 10
 const clampZoom = (v: number) => Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, v))
 
-export function useZoomPan(canvasRef: React.RefObject<HTMLElement>) {
+export function useZoomPan(canvasRef: React.RefObject<HTMLElement | null>) {
   const [zoom, setZoom] = useState(() => window.innerWidth <= 768 ? 70 : 100)
   const [offset, setOffset] = useState({ x: 0, y: 0 })
   const [spaceDown, setSpaceDown] = useState(false)
