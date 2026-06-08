@@ -21,6 +21,17 @@
   height: 150px;
 }
 
+@media (max-width: 768px) {
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .track {
+    width: 160px;
+  }
+}
+
 .track {
   width: 280px;
   height: 4px;
