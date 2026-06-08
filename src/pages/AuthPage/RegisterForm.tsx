@@ -124,7 +124,7 @@ function RegisterForm({ onSwitch }: Props) {
 
       <button
         className={styles.googleBtn}
-        onClick={() => supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: 'http://localhost:5173/dashboard' } })}
+        onClick={() => supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${window.location.origin}/dashboard` } })}
       >
         <img src={GoogleIcon} alt="Google" />
         Google

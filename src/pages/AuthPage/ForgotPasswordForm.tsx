@@ -28,7 +28,7 @@ function ForgotPasswordForm({ onBack }: Props) {
     setEmailError('')
     setLoading(true)
     await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:5173/reset-password',
+      redirectTo: `${window.location.origin}/reset-password`,
     })
     setLoading(false)
     setSent(true)
