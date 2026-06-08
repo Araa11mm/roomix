@@ -74,7 +74,7 @@
 @media (max-width: 768px) {
   .panel {
     position: fixed;
-    bottom: 80px;
+    bottom: calc(82px + env(safe-area-inset-bottom));
     left: 0;
     right: 0;
     top: auto;
