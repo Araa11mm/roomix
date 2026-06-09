@@ -1,6 +1,7 @@
 import type { TrashItem } from '../DashboardPage'
 import styles from '../ProjectsSection/ProjectsSection.module.scss'
 import trashStyles from './TrashSection.module.scss'
+import trashIcon from '../../../img/trash-action.svg'
 
 interface Props {
   items: TrashItem[]
@@ -66,10 +67,7 @@ function TrashSection({ items, onRestore, onPermanentDelete }: Props) {
                   Восстановить
                 </button>
                 <button className={trashStyles.deleteBtn} onClick={() => onPermanentDelete(item.id)}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="3 6 5 6 21 6"/>
-                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                  </svg>
+                  <img src={trashIcon} alt="" width="13" height="13" style={{ filter: 'invert(27%) sepia(90%) saturate(1200%) hue-rotate(330deg) brightness(90%)' }} />
                   Удалить
                 </button>
               </div>
