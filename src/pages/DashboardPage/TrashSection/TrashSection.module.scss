@@ -64,3 +64,17 @@
     border-color: #e53935;
   }
 }
+
+@media (max-width: 480px) {
+  .trashActions {
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 10px 10px;
+  }
+
+  .restoreBtn,
+  .deleteBtn {
+    font-size: 12px;
+    padding: 7px 0;
+  }
+}
