@@ -264,6 +264,7 @@ function EditorPage() {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onClick={stylesOpen ? () => setStylesOpen(false) : undefined}
         >
           <EditorToolbar
             activeTool={activeTool}
