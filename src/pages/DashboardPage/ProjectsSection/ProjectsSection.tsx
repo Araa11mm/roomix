@@ -171,9 +171,11 @@ function ProjectsSection({ favorites, onToggleFavorite, deletedIds, onDeleteToTr
           </h1>
           <p className={styles.subtitle}>Все интерьеры, над которыми вы работаете.</p>
         </div>
-        <button className={styles.newBtn} onClick={handleNewProject} disabled={creating}>
-          {creating ? 'Создаём...' : '+ Новый проект'}
-        </button>
+        {visibleProjects.length > 0 && (
+          <button className={styles.newBtn} onClick={handleNewProject} disabled={creating}>
+            {creating ? 'Создаём...' : '+ Новый проект'}
+          </button>
+        )}
       </div>
 
       <div className={styles.toolbar}>
