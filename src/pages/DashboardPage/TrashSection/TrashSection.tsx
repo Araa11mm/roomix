@@ -2,7 +2,7 @@ import type { TrashItem } from '../DashboardPage'
 import styles from '../ProjectsSection/ProjectsSection.module.scss'
 import trashStyles from './TrashSection.module.scss'
 import trashIcon from '../../../img/trash-action.svg'
-import restoreIcon from '../../../img/undo.svg'
+import restoreIcon from '../../../img/restore.svg'
 
 interface Props {
   items: TrashItem[]
