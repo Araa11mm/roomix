@@ -549,4 +549,23 @@
   .cardInfo {
     padding: 8px 10px;
   }
+
+  .empty {
+    padding: 32px 20px;
+    gap: 8px;
+  }
+
+  .emptyIcon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .emptyTitle {
+    font-size: 16px;
+  }
+
+  .emptySubtitle {
+    font-size: 13px;
+  }
 }
