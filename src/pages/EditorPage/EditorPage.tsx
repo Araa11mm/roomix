@@ -71,6 +71,7 @@ function EditorPage() {
   // ── Generation ────────────────────────────────────────────────────────────
   const { generating, handlePromptSubmit } = useGenerate({
     objectsRef, selectedIdsRef,
+    canvasRef, zoomRef, offsetRef,
     lassoSelectionRef: lasso.lassoSelectionRef,
     lassoSelectionImageIdRef: lasso.lassoSelectionImageIdRef,
     rectSelectionRef: rect.rectSelectionRef,

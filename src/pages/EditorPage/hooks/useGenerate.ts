@@ -1,10 +1,14 @@
 import { useState, useCallback } from 'react'
+import type React from 'react'
 import type { CanvasObject } from '../types'
 import type { Point, ClipBounds } from './editorTypes'
 
 interface Deps {
   objectsRef: { current: CanvasObject[] }
   selectedIdsRef: { current: string[] }
+  canvasRef: React.RefObject<HTMLElement | null>
+  zoomRef: React.RefObject<number>
+  offsetRef: React.RefObject<{ x: number; y: number }>
   lassoSelectionRef: { current: Point[] }
   lassoSelectionImageIdRef: { current: string | null }
   rectSelectionRef: { current: ClipBounds | null }
@@ -21,6 +25,7 @@ interface Deps {
 
 export function useGenerate({
   objectsRef, selectedIdsRef,
+  canvasRef, zoomRef, offsetRef,
   lassoSelectionRef, lassoSelectionImageIdRef,
   rectSelectionRef, rectSelectionImageIdRef,
   magicSelectionRef, magicSelectionImageIdRef,
@@ -29,11 +34,65 @@ export function useGenerate({
 }: Deps) {
   const [generating, setGenerating] = useState(false)
 
+  const getCanvasCenter = (w: number, h: number) => {
+    const el = canvasRef.current
+    const zoom = zoomRef.current ?? 100
+    const offset = offsetRef.current ?? { x: 0, y: 0 }
+    if (!el) return { x: -w / 2, y: -h / 2 }
+    return {
+      x: (-offset.x + el.clientWidth / 2) / (zoom / 100) - w / 2,
+      y: (-offset.y + el.clientHeight / 2) / (zoom / 100) - h / 2,
+    }
+  }
+
   const handlePromptSubmit = useCallback(async (prompt: string, furnitureFile?: File | null) => {
     const targetImg = objectsRef.current.find(
       o => o.type === 'image' && selectedIdsRef.current.includes(o.id)
     ) ?? objectsRef.current.slice().reverse().find(o => o.type === 'image')
-    if (!targetImg) return
+
+    // ── Text-to-image: no photo on canvas ──────────────────────────────────
+    if (!targetImg) {
+      if (!prompt.trim()) return
+      saveHistory()
+      setGenerating(true)
+      const placeholderId = crypto.randomUUID()
+      const PW = 800, PH = 600
+      const pos = getCanvasCenter(PW, PH)
+      setObjects(prev => [...prev, { id: placeholderId, type: 'placeholder' as const, x: pos.x, y: pos.y, width: PW, height: PH }])
+      try {
+        const { createAI } = await import('../../../lib/gemini')
+        const ai = createAI()
+        const fullPrompt = `Generate a photorealistic interior design photo of a room. The scene must be an interior space (living room, bedroom, kitchen, bathroom, office, dining room or similar). ${prompt}. High quality professional interior photography.`
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.0-flash-preview-image-generation',
+          contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
+          config: { responseModalities: ['IMAGE'] },
+        })
+        for (const part of response.candidates?.[0]?.content?.parts ?? []) {
+          if (part.inlineData) {
+            const { data, mimeType } = part.inlineData
+            const blob = await fetch(`data:${mimeType};base64,${data}`).then(r => r.blob())
+            const src = URL.createObjectURL(blob)
+            const img = new Image()
+            img.src = src
+            await new Promise<void>(resolve => { img.onload = () => resolve() })
+            const center = getCanvasCenter(img.naturalWidth, img.naturalHeight)
+            setObjects(prev => prev.map(o => o.id === placeholderId
+              ? { id: placeholderId, type: 'image' as const, src, x: center.x, y: center.y, width: img.naturalWidth, height: img.naturalHeight }
+              : o
+            ))
+            setSelectedIds([placeholderId])
+            break
+          }
+        }
+      } catch (err) {
+        console.error('Text-to-image error:', err)
+        setObjects(prev => prev.filter(o => o.id !== placeholderId))
+      } finally {
+        setGenerating(false)
+      }
+      return
+    }
 
     saveHistory()
     setGenerating(true)
@@ -215,6 +274,7 @@ Return only the result image.` })
     }
   }, [
     objectsRef, selectedIdsRef,
+    canvasRef, zoomRef, offsetRef,
     lassoSelectionRef, lassoSelectionImageIdRef,
     rectSelectionRef, rectSelectionImageIdRef,
     magicSelectionRef, magicSelectionImageIdRef,
