@@ -63,9 +63,8 @@ export function useGenerate({
         const ai = createAI()
         const fullPrompt = `Generate a photorealistic interior design photo of a room. The scene must be an interior space (living room, bedroom, kitchen, bathroom, office, dining room or similar). ${prompt}. High quality professional interior photography.`
         const response = await ai.models.generateContent({
-          model: 'gemini-2.0-flash-preview-image-generation',
+          model: 'gemini-2.5-flash-image',
           contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
-          config: { responseModalities: ['IMAGE'] },
         })
         for (const part of response.candidates?.[0]?.content?.parts ?? []) {
           if (part.inlineData) {
