@@ -34,18 +34,17 @@ export function useGenerate({
 }: Deps) {
   const [generating, setGenerating] = useState(false)
 
-  const getCanvasCenter = (w: number, h: number) => {
-    const el = canvasRef.current
-    const zoom = zoomRef.current ?? 100
-    const offset = offsetRef.current ?? { x: 0, y: 0 }
-    if (!el) return { x: -w / 2, y: -h / 2 }
-    return {
-      x: (-offset.x + el.clientWidth / 2) / (zoom / 100) - w / 2,
-      y: (-offset.y + el.clientHeight / 2) / (zoom / 100) - h / 2,
-    }
-  }
-
   const handlePromptSubmit = useCallback(async (prompt: string, furnitureFile?: File | null) => {
+    const getCanvasCenter = (w: number, h: number) => {
+      const el = canvasRef.current
+      const zoom = zoomRef.current ?? 100
+      const offset = offsetRef.current ?? { x: 0, y: 0 }
+      if (!el) return { x: -w / 2, y: -h / 2 }
+      return {
+        x: (-offset.x + el.clientWidth / 2) / (zoom / 100) - w / 2,
+        y: (-offset.y + el.clientHeight / 2) / (zoom / 100) - h / 2,
+      }
+    }
     const targetImg = objectsRef.current.find(
       o => o.type === 'image' && selectedIdsRef.current.includes(o.id)
     ) ?? objectsRef.current.slice().reverse().find(o => o.type === 'image')
