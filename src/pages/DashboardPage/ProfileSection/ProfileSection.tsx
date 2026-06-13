@@ -201,7 +201,7 @@ function ProfileSection({ onUpdate }: Props) {
             <div className={styles.field}>
               <label className={styles.label}>Имя</label>
               <div className={styles.fieldRow}>
-                <input className={styles.input} value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && saveName()} placeholder="Ваше имя" />
+                <input className={`${styles.input} ${nameMsg?.ok ? styles.inputSuccess : ''}`} value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && saveName()} placeholder="Ваше имя" />
                 <button className={styles.saveBtn} onClick={saveName} disabled={savingName}>{savingName ? '...' : 'Сохранить'}</button>
               </div>
               {nameMsg && <span className={nameMsg.ok ? styles.msgOk : styles.msgErr}>{nameMsg.text}</span>}
@@ -212,7 +212,7 @@ function ProfileSection({ onUpdate }: Props) {
             <div className={styles.field}>
               <label className={styles.label}>Email</label>
               <div className={styles.fieldRow}>
-                <input className={styles.input} type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && saveEmail()} placeholder="email@example.com" />
+                <input className={`${styles.input} ${emailMsg?.ok ? styles.inputSuccess : ''}`} type="email" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === 'Enter' && saveEmail()} placeholder="email@example.com" />
                 <button className={styles.saveBtn} onClick={saveEmail} disabled={savingEmail}>{savingEmail ? '...' : 'Сохранить'}</button>
               </div>
               {emailMsg && <span className={emailMsg.ok ? styles.msgOk : styles.msgErr}>{emailMsg.text}</span>}
