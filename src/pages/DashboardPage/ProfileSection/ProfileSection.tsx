@@ -34,6 +34,8 @@ function ProfileSection({ onUpdate }: Props) {
   const [passMsg, setPassMsg] = useState<MsgType>(null)
   const [avatarMsg, setAvatarMsg] = useState<MsgType>(null)
 
+  const [passSuccess, setPassSuccess] = useState(false)
+
   const [savingName, setSavingName] = useState(false)
   const [savingEmail, setSavingEmail] = useState(false)
   const [savingPass, setSavingPass] = useState(false)
@@ -98,6 +100,8 @@ function ProfileSection({ onUpdate }: Props) {
       setNewPassword('')
       setConfirmPassword('')
       flash(setPassMsg, { text: 'Пароль изменён', ok: true })
+      setPassSuccess(true)
+      setTimeout(() => setPassSuccess(false), 2500)
     }
   }
 
@@ -222,21 +226,21 @@ function ProfileSection({ onUpdate }: Props) {
             <div className={styles.field}>
               <label className={styles.label}>Смена пароля</label>
               <div className={styles.passwordWrap}>
-                <input className={styles.input} type={showPassword ? 'text' : 'password'} value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Новый пароль" />
+                <input className={`${styles.input} ${passSuccess ? styles.inputSuccess : ''}`} type={showPassword ? 'text' : 'password'} value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Новый пароль" />
                 <button className={styles.eyeBtn} onClick={() => setShowPassword(p => !p)}>
                   <img src={showPassword ? eyeOffSvg : eyeSvg} alt="" width="16" height="16" />
                 </button>
               </div>
               <div className={styles.passwordWrap} style={{ marginTop: 8 }}>
-                <input className={styles.input} type={showConfirm ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && savePassword()} placeholder="Повторите пароль" />
+                <input className={`${styles.input} ${passSuccess ? styles.inputSuccess : ''}`} type={showConfirm ? 'text' : 'password'} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} onKeyDown={e => e.key === 'Enter' && savePassword()} placeholder="Повторите пароль" />
                 <button className={styles.eyeBtn} onClick={() => setShowConfirm(p => !p)}>
                   <img src={showConfirm ? eyeOffSvg : eyeSvg} alt="" width="16" height="16" />
                 </button>
               </div>
-              <button className={styles.saveBtnFull} onClick={savePassword} disabled={savingPass || !newPassword} style={{ marginTop: 12 }}>
+              {passMsg && <span className={passMsg.ok ? styles.msgOk : styles.msgErr} style={{ marginTop: 4 }}>{passMsg.text}</span>}
+              <button className={styles.saveBtnFull} onClick={savePassword} disabled={savingPass || !newPassword} style={{ marginTop: 8 }}>
                 {savingPass ? 'Сохраняем...' : 'Изменить пароль'}
               </button>
-              {passMsg && <span className={passMsg.ok ? styles.msgOk : styles.msgErr}>{passMsg.text}</span>}
             </div>
           </div>
 
