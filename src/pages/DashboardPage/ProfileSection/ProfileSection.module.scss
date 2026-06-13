@@ -255,14 +255,14 @@
 }
 
 .inputSuccess {
-  border-color: #2e7d32 !important;
+  border: 2px solid #2e7d32 !important;
   animation: borderFadeOut 2.5s ease forwards;
 }
 
 @keyframes borderFadeOut {
   0%   { border-color: #2e7d32; }
   60%  { border-color: #2e7d32; }
-  100% { border-color: #e0e0e0; }
+  100% { border-color: #e0e0e0; border-width: 1px; }
 }
 
 /* ── Messages ── */
