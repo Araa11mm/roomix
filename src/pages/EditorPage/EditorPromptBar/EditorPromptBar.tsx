@@ -134,6 +134,14 @@ function EditorPromptBar({ onUpload, onSubmit, generating, selectedStyle, select
           onKeyDown={e => e.key === 'Enter' && handleSubmit()}
           placeholder={generating ? 'Генерация...' : 'Опишите желаемый стиль комнаты...'}
           disabled={generating}
+          onFocus={() => {
+            const vp = document.querySelector('meta[name=viewport]')
+            if (vp) vp.setAttribute('content', (vp.getAttribute('content') ?? '') + ', maximum-scale=1')
+          }}
+          onBlur={() => {
+            const vp = document.querySelector('meta[name=viewport]')
+            if (vp) vp.setAttribute('content', (vp.getAttribute('content') ?? '').replace(/, maximum-scale=1/g, ''))
+          }}
         />
         {hasChips && (
           <div className={styles.chips}>
